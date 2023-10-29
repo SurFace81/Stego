@@ -1,6 +1,4 @@
-using System.Runtime.Intrinsics.X86;
 using System.Text;
-using System.Text.RegularExpressions;
 
 namespace Stego
 {
@@ -28,7 +26,7 @@ namespace Stego
                 {
                     Color clr = img.GetPixel(x, y);
 
-                    result[i] = clr.R;
+                    result[i]   = clr.R;
                     result[++i] = clr.G;
                     result[++i] = clr.B;
 
@@ -79,12 +77,12 @@ namespace Stego
 
             for (int i = 0; i < arr.Length; i++)
             {
-                temp[i] = (byte)(arr[i] & 0x03);
+                temp[i] = (byte)(arr[i] & 0x03);    // Ex. 01001110b & 0x03 = 00000010b; 0x03 = 00000011b
             }
 
 
             // Print
-            label1.Text = Encoding.ASCII.GetString(Decode(temp)).Replace("\\n", ""); ;
+            label1.Text = Encoding.ASCII.GetString(Decode(temp)).Replace("\\n", "");    // *.Replace("\\n", "") - formatting, just for me
         }
     }
 }
