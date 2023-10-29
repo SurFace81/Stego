@@ -26,9 +26,9 @@ namespace Stego
                 {
                     Color clr = img.GetPixel(x, y);
 
-                    result[i]   = clr.R;
-                    result[++i] = clr.G;
-                    result[++i] = clr.B;
+                    result[i]   = (byte)(clr.R & 0x03);
+                    result[++i] = (byte)(clr.G & 0x03);
+                    result[++i] = (byte)(clr.B & 0x03);
 
                     i += 1;
                 }
@@ -72,17 +72,10 @@ namespace Stego
             label2.Text = bmp.PixelFormat.ToString();           // Pixel format ARGB or RGB. (ARGB not work)
 
             byte[] arr = ImageToByte(bmp);
-            byte[] temp = new byte[arr.Length];
-
-
-            for (int i = 0; i < arr.Length; i++)
-            {
-                temp[i] = (byte)(arr[i] & 0x03);    // Ex. 01001110b & 0x03 = 00000010b; 0x03 = 00000011b
-            }
 
 
             // Print
-            label1.Text = Encoding.ASCII.GetString(Decode(temp)).Replace("\\n", "");    // *.Replace("\\n", "") - formatting, just for me
+            label1.Text = Encoding.ASCII.GetString(Decode(arr)).Replace("\\n", "");    // *.Replace("\\n", "") - formatting, just for me
         }
     }
 }
