@@ -42,26 +42,14 @@ namespace Stego
             // Decode text from sequence of bytes
             byte[] result = new byte[temp.Length / 4];
 
-            int j = 0;
-            for (int i = 0; i < temp.Length; i += 4)
+            for (int i = 0, j = 0; i < temp.Length; i += 4, j += 1)
             {
-                byte resultByte = 0;
-                if (i + 3 < temp.Length)
-                {
-                    // Ex.
-                    // 24, 75, 177, 24 => 52; 24 = 00011000b, LSB = 00
-                    // 00 << 6 = 00000000, 11 << 4 = 00110000, 01 << 2 = 00000100, 00 << 0 = 00000000
-                    // 00000000 | 00110000 | 00000100 | 00000000 = 00110100b = 52
-                    resultByte = (byte)((temp[i] << 6) | (temp[i + 1] << 4) | (temp[i + 2] << 2) | temp[i + 3]);
-                }
-
-                if (j < result.Length)
-                {
-                    result[j] = resultByte;
-                }
-                j += 1;
+                // Ex.
+                // 24, 75, 177, 24 => 52; 24 = 00011000b, LSB = 00
+                // 00 << 6 = 00000000, 11 << 4 = 00110000, 01 << 2 = 00000100, 00 << 0 = 00000000
+                // 00000000 | 00110000 | 00000100 | 00000000 = 00110100b = 52
+                result[j] = (byte)((temp[i] << 6) | (temp[i + 1] << 4) | (temp[i + 2] << 2) | temp[i + 3]);
             }
-
 
             return result; // Char codes in ASCII
         }
@@ -73,7 +61,7 @@ namespace Stego
 
             byte[] arr = ImageToByte(bmp);
 
-
+            
             // Print
             label1.Text = Encoding.ASCII.GetString(Decode(arr)).Replace("\\n", "");    // *.Replace("\\n", "") - formatting, just for me
         }
